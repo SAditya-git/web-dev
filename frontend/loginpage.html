@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a8b, #ff6a88, #ff99ac);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #444;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border 0.3s;
+    }
+
+    input:focus {
+      border: 1px solid #ff6a88;
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #ff6a88, #ff99ac);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #ff5f7e, #ff8ba0);
+      transform: translateY(-2px);
+    }
+
+    .signup-link {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .signup-link a {
+      color: #ff6a88;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <div class="input-group">
+      <label for="loginEmail">Email</label>
+      <input type="text" id="loginEmail" placeholder="Enter Email">
+    </div>
+    <div class="input-group">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter Password">
+    </div>
+    <button class="btn" id="login">Login</button>
+    <div class="xt"></div>
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign up</a>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("login").addEventListener("click", async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      if (!email || !password) {
+        alert("All fields are required!");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password })
+        });
+        const xtr = document.getElementsByClassName('xt')[0];
+        const data = await response.json();
+        if(response.ok && data.message=="Login successful"){
+          alert("Login successful!");
+          xtr.innerHTML = "Login successful";
+          window.location.href = "hotel.html";
+        }
+        else{
+          // const xtr = document.getElementsByClassName('xt')[0];
+          xtr.innerHTML = "Your Email or Password is incorrect";
+        }
+        // if (response.ok) {
+        //   alert("Login successful!");
+        //   window.location.href = "hotel.html";
+        // } else {
+        //   alert(data.message || "Login failed");
+        // }
+      } catch (err) {
+        console.error(err);
+        alert(err);
+      }
+    });
+  </script>
+</body>
+</html>
