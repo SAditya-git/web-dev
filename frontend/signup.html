@@ -114,9 +114,9 @@
     </div>
     <button class="btn" id="signup">Sign Up</button>
 
-    <!-- <div class="login-link">
-      Already have an account? <a href="login.html">Login</a>
-    </div> -->
+    <div class="login-link">
+      Already have an account? <a href="loginpage.html">Login</a>
+    </div>
   </div>
   <script src="server.js"></script>
   <script>
@@ -147,9 +147,11 @@
         const data = await response.text();
         if (response.ok) {
           alert("Signup successful! Redirecting to login...");
-          window.location.href = "loginpage.html";
+          setTimeout(() => {
+            window.location.href = "loginpage.html";
+          }, 1000);
         } else {
-          alert(data.message || "Signup failed");
+          alert("Signup failed. Please try again.");
         }
       } catch (err) {
         console.error(err);

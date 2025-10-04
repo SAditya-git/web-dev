@@ -168,16 +168,11 @@ class SafeLearnApp {
     const closeLoginModal = document.getElementById('closeLoginModal');
     const loginForm = document.getElementById('loginForm');
     const loginResult = document.getElementById('loginResult');
-    const log=document.getElementById('showLoginModal');
-
     if (loginBtn) {
       loginBtn.addEventListener('click', () => {
-        loginModal.classList.remove('hidden');
+        window.location.href = 'loginpage.html';
       });
     }
-    log.addEventListener('click', () => {
-      window.location.href = "loginpage.html";
-    });
 
     if (closeLoginModal) {
       closeLoginModal.addEventListener('click', () => {
@@ -292,7 +287,8 @@ class SafeLearnApp {
   logout() {
     localStorage.removeItem('hackhive_token');
     localStorage.removeItem('hackhive_user');
-    this.checkAuthentication();
+    localStorage.removeItem('safelearn_user');
+    window.location.href = 'index.html';
   }
 
   switchModule(moduleName) {
@@ -338,7 +334,11 @@ class SafeLearnApp {
   }
 
   loadInitialView() {
-    if (!localStorage.getItem('hackhive_token')) return;
+    const token = localStorage.getItem('hackhive_token');
+    if (!token) {
+      window.location.href = 'index.html';
+      return;
+    }
     this.loadUserData();
     this.switchModule('dashboard');
   }
